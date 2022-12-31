@@ -4,7 +4,7 @@ WITH_R=--volumes-from=rserve
 
 PUBLISH=--publish=${PORT}:3050
 DOPTS=--rm ${PUBLISH} -v ${VOLUME}:/data ${WITH_R}
-IMG=swipl/swish
+IMG=swish
 
 all:
 	@echo "Targets"
