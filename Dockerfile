@@ -44,27 +44,26 @@ RUN	cd / && \
 		yarn-zip packs min
 RUN	make -C /swish -j PACKS=hdt packs
 
-
-# Update
-
-ENV	VERSION 2
-RUN	git config --global pull.ff only
-RUN	cd /usr/local/src/swipl-devel && git pull && \
-	git submodule update --init && \
-	cd build && cmake . && ninja && \
-	ninja install
-RUN	swipl -g "[library(wn)],load_wordnet" -t halt	
-ENV	SWISH_VERSION 1
-RUN	cd /swish && git pull && \
-	git submodule update --init && \
-	make -C /swish min
-
 RUN	apt-get install -y locales
 RUN	sed -i -e 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen && \
 	locale-gen
 ENV LC_ALL en_GB.UTF-8
 ENV LANG en_GB.UTF-8
 ENV LANGUAGE en_GB:en
+
+# Update
+
+ENV	VERSION 1
+RUN	git config --global pull.ff only
+RUN	cd /usr/local/src/swipl-devel && git pull && \
+	git submodule update --init && \
+	cd build && cmake . && ninja && \
+	ninja install
+RUN	swipl -g "[library(wn)],load_wordnet" -t halt	
+ENV	SWISH_VERSION 2
+RUN	cd /swish && git pull && \
+	git submodule update --init && \
+	make -C /swish min
 
 COPY entry.sh entry.sh
 
