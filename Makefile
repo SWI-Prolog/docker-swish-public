@@ -2,7 +2,7 @@ VOLUME=$(shell pwd)
 PORT=3050
 WITH_R=--volumes-from=rserve
 
-PUBLISH=--publish=${PORT}:3050
+PUBLISH=--publish=${PORT}:3050 --publish=3250:3250
 DOPTS=--rm ${PUBLISH} -v ${VOLUME}:/data ${WITH_R}
 IMG=swish
 
