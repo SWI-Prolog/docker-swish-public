@@ -17,7 +17,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libyaml-dev \
         default-jdk junit4 \
 	graphviz imagemagick \
-	wamerican
+	wamerican \
+	libssh-dev \
+	libserd-dev libraptor2-dev
+
+RUN	mkdir /wordnet && cd /wordnet && \
+	curl https://wordnetcode.princeton.edu/3.0/WNprolog-3.0.tar.gz > WNprolog-3.0.tar.gz && \
+	tar zxf WNprolog-3.0.tar.gz
+ENV WNDB /wordnet/prolog
 
 RUN	mkdir -p /usr/local/src && cd /usr/local/src && \
 	git clone --recursive https://github.com/SWI-Prolog/swipl-devel.git && \
@@ -26,22 +33,17 @@ RUN	mkdir -p /usr/local/src && cd /usr/local/src && \
 	ninja && ninja install
 
 RUN	mkdir -p /usr/share/swi-prolog/pack
-RUN	apt install -y libssh-dev
 RUN	swipl -g "pack_install(chat80,[interactive(false),package_directory('/usr/share/swi-prolog/pack')])" -t halt
-RUN	swipl -g "pack_install(wordnet,[interactive(false),package_directory('/usr/share/swi-prolog/pack')])" -t halt
+RUN	swipl -g "pack_install(wordnet,[interactive(false),package_directory('/usr/share/swi-prolog/pack')])" -t halt && \
+	swipl -g "[library(wn)],load_wordnet" -t halt	
 RUN	swipl -g "pack_install(libssh,[interactive(false),package_directory('/usr/share/swi-prolog/pack')])" -t halt
 
-RUN	apt install -y libserd-dev libraptor2-dev
 RUN	cd / && \
-	git clone https://github.com/SWI-Prolog/swish.git && \
+	git clone -b redis https://github.com/SWI-Prolog/swish.git && \
 	make -C /swish RJS="nodejs /usr/share/nodejs/requirejs/r.js" \
 		yarn-zip packs min
 RUN	make -C /swish -j PACKS=hdt packs
 
-RUN	mkdir /wordnet && cd /wordnet && \
-	curl https://wordnetcode.princeton.edu/3.0/WNprolog-3.0.tar.gz > WNprolog-3.0.tar.gz && \
-	tar zxf WNprolog-3.0.tar.gz
-ENV WNDB /wordnet/prolog
 
 # Update
 
