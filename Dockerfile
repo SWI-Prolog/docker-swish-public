@@ -60,10 +60,10 @@ RUN	cd /usr/local/src/swipl-devel && git pull && \
 	cd build && cmake . && ninja && \
 	ninja install
 RUN	swipl -g "[library(wn)],load_wordnet" -t halt	
-ENV	SWISH_VERSION 2
+ENV	SWISH_VERSION 4
 RUN	cd /swish && git pull && \
 	git submodule update --init && \
-	make -C /swish min
+	make -C /swish RJS="nodejs /usr/share/nodejs/requirejs/r.js" min
 
 COPY entry.sh entry.sh
 
