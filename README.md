@@ -1,8 +1,10 @@
 # A SWISH (SWI-Prolog for SHaring) docker
 
-This repository provides a   [Docker](https://www.docker.com/) image for
-[SWISH](http://swish.swi-prolog.org) based on the   official [SWI-Prolog
-docker image](https://hub.docker.com/_/swipl/).
+This repository provides a [Docker](https://www.docker.com/) image for
+the [public swish instance](https://swish.swi-prolog.org).  This image
+is similar to the normal [SWISH](https://hub.docker.com/r/swipl/swish/)
+Docker image.  However, it is based on the GIT version of Prolog and
+contains several additional packages such as CHAT80 and Wordnet.
 
 ## Building the image
 
@@ -11,6 +13,8 @@ The image is built by running
     make image
 
 ## Running the image
+
+> Needs to be updated
 
 The image may be used in many  configurations, both controlled by docker
 options and options to the  entry   point.  As basic operation typically
@@ -143,5 +147,8 @@ The options provided are:
   self-signed certificate is created.  The details may be refined
   using `--CN=host`, `--O=organization` and `--C=country`
 
+## Starting R
 
+    docker pull swipl/rserve
+    docker run -d --net=none --name=rserve --restart unless-stopped swipl/rserve
 
