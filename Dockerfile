@@ -53,14 +53,14 @@ ENV LANGUAGE en_GB:en
 
 # Update
 
-ENV	VERSION 1
+ENV	VERSION 2
 RUN	git config --global pull.ff only
 RUN	cd /usr/local/src/swipl-devel && git pull && \
 	git submodule update --init && \
 	cd build && cmake . && ninja && \
 	ninja install
 RUN	swipl -g "[library(wn)],load_wordnet" -t halt	
-ENV	SWISH_VERSION 4
+ENV	SWISH_VERSION 1
 RUN	cd /swish && git pull && \
 	git submodule update --init && \
 	make -C /swish RJS="nodejs /usr/share/nodejs/requirejs/r.js" min
