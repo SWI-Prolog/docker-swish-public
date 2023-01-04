@@ -1,5 +1,8 @@
 FROM debian:bullseye-slim
 
+# Dockerfile for the public swish image.   This docker image is designed to allow
+# for a quick update by changing ENV VERSION
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git curl unzip build-essential cmake autoconf ninja-build pkg-config \
 	cleancss node-requirejs \
@@ -19,12 +22,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	graphviz imagemagick \
 	wamerican \
 	libssh-dev \
-	libserd-dev libraptor2-dev
+	libserd-dev libraptor2-dev \
+	locales
+
+RUN	sed -i -e 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen && \
+	locale-gen
+ENV	LC_ALL en_GB.UTF-8
+ENV	LANG en_GB.UTF-8
+ENV	LANGUAGE en_GB:en
 
 RUN	mkdir /wordnet && cd /wordnet && \
 	curl https://wordnetcode.princeton.edu/3.0/WNprolog-3.0.tar.gz > WNprolog-3.0.tar.gz && \
 	tar zxf WNprolog-3.0.tar.gz
-ENV WNDB /wordnet/prolog
+ENV	WNDB /wordnet/prolog
 
 RUN	mkdir -p /usr/local/src && cd /usr/local/src && \
 	git clone --recursive https://github.com/SWI-Prolog/swipl-devel.git && \
@@ -44,14 +54,7 @@ RUN	cd / && \
 		yarn-zip packs min
 RUN	make -C /swish -j PACKS=hdt packs
 
-RUN	apt-get install -y locales
-RUN	sed -i -e 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen && \
-	locale-gen
-ENV LC_ALL en_GB.UTF-8
-ENV LANG en_GB.UTF-8
-ENV LANGUAGE en_GB:en
-
-# Update
+# Update.  Edit VERSION to pull Prolog or SWISH_VERSION to only pull swish
 
 ENV	VERSION 2
 RUN	git config --global pull.ff only
