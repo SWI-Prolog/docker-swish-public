@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         default-jdk junit4 \
 	graphviz imagemagick \
 	wamerican \
-	libssh-dev \
+	libssh-dev openssh-client \
 	libserd-dev libraptor2-dev \
 	locales
 
@@ -67,9 +67,6 @@ ENV	SWISH_VERSION 1
 RUN	cd /swish && git pull && \
 	git submodule update --init && \
 	make -C /swish RJS="nodejs /usr/share/nodejs/requirejs/r.js" min
-
-# get ssh-keygen
-RUN	apt install -y openssh-client
 
 HEALTHCHECK CMD curl --fail -s \
 	-d ask="statistics(threads,V)" \
