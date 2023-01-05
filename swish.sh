@@ -38,5 +38,5 @@ done
 if [ $fake = no ]; then
   docker run -p $port:3050 -p 3250:3250 -v "$data":/data $dopts swish $*
 else
-  echo docker run -p $port:3050 -p 3250:3250 -v "$data":/data $dopts swish $*
+  echo docker run -d --restart unless-stopped -p 127.0.0.1:$port:3050 -p 127.0.0.1:3250:3250 -v "$data":/data $dopts swish $*
 fi
