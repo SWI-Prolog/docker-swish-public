@@ -71,6 +71,13 @@ RUN	cd /swish && git pull && \
 # get ssh-keygen
 RUN	apt install -y openssh-client
 
+HEALTHCHECK CMD curl --fail -s \
+	-d ask="statistics(threads,V)" \
+	-d template="csv(V)" \
+	-d format=csv \
+	-d solutions=all \
+	http://localhost:3050/pengine/create || exit 1
+
 COPY entry.sh entry.sh
 
 ENV SWISH_DATA /data
