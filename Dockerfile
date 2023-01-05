@@ -68,6 +68,9 @@ RUN	cd /swish && git pull && \
 	git submodule update --init && \
 	make -C /swish RJS="nodejs /usr/share/nodejs/requirejs/r.js" min
 
+# get ssh-keygen
+RUN	apt install -y openssh-client
+
 COPY entry.sh entry.sh
 
 ENV SWISH_DATA /data
