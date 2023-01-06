@@ -39,3 +39,11 @@ help:
 
 push:
 	docker push $(IMG):latest
+
+update-swish:
+	sed -i "s/SWISH_VERSION.*/SWISH_VERSION $$(date)/" Dockerfile
+	make image
+
+update-swipl:
+	sed -i "s/SWIPL_VERSION.*/SWIPL_VERSION $$(date)/" Dockerfile
+	make image

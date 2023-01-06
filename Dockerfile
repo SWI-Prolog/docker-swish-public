@@ -54,16 +54,17 @@ RUN	cd / && \
 		yarn-zip packs min
 RUN	make -C /swish -j PACKS=hdt packs
 
-# Update.  Edit VERSION to pull Prolog or SWISH_VERSION to only pull swish
+# Update.  Run `make update-swish` or `make update-swipl` to update the `ENV` command
+# below and redo the relevant part of the build
 
-ENV	VERSION 2
+ENV	SWIPL_VERSION 3
 RUN	git config --global pull.ff only
 RUN	cd /usr/local/src/swipl-devel && git pull && \
 	git submodule update --init && \
 	cd build && cmake . && ninja && \
 	ninja install
 RUN	swipl -g "[library(wn)],load_wordnet" -t halt	
-ENV	SWISH_VERSION 1
+ENV	SWISH_VERSION Fri  6 Jan 15:16:25 CET 2023
 RUN	cd /swish && git pull && \
 	git submodule update --init && \
 	make -C /swish RJS="nodejs /usr/share/nodejs/requirejs/r.js" min
