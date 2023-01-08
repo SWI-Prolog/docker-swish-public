@@ -64,8 +64,8 @@ RUN	cd /usr/local/src/swipl-devel && git pull && \
 	cd build && cmake . && ninja && \
 	ninja install
 RUN	swipl -g "[library(wn)],load_wordnet" -t halt	
-ENV	SWISH_VERSION Fri  6 Jan 15:16:25 CET 2023
-RUN	cd /swish && git pull && \
+ENV	SWISH_VERSION Sun  8 Jan 18:25:06 CET 2023
+RUN	cd /swish && git fetch && git checkout backend && git pull && \
 	git submodule update --init && \
 	make -C /swish RJS="nodejs /usr/share/nodejs/requirejs/r.js" min
 
