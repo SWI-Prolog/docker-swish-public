@@ -220,4 +220,4 @@ if [ -S /rserve/socket ]; then
   echo ":- set_setting_default(rserve:socket, '/rserve/socket')." >> $configdir/r_serve.pl
 fi
 
-${SWISH_HOME}/daemon.pl --${scheme}=3050 ${ssl} --user=$udaemon $start
+exec swipl ${SWISH_HOME}/daemon.pl --${scheme}=3050 ${ssl} --user=$udaemon $start
