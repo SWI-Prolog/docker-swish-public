@@ -78,11 +78,11 @@ HEALTHCHECK --interval=30s --timeout=2m --start-period=1m \
 	http://localhost:3050/pengine/create || \
 	bash -c 'kill -s 15 -1 && (sleep 10; kill -s 9 -1)'
 
-COPY entry.sh entry.sh
+COPY start-swish.sh start-swish.sh
 
 ENV SWISH_DATA /data
 ENV SWISH_HOME /swish
 VOLUME ${SWISH_DATA}
 WORKDIR ${SWISH_DATA}
 
-ENTRYPOINT ["/entry.sh"]
+ENTRYPOINT ["/start-swish.sh"]
