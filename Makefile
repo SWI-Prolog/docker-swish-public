@@ -47,3 +47,8 @@ update-swish:
 update-swipl:
 	sed -i "s/SWIPL_VERSION.*/SWIPL_VERSION $$(date)/" Dockerfile
 	make image
+
+update-mostly:
+	sed -i "s/REBUILD_MOST.*/REBUILD_MOST $$(date)/" Dockerfile
+	make image
+
