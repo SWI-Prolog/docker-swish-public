@@ -70,14 +70,8 @@ RUN	cd /swish && git fetch && git checkout backend && git pull && \
 	git submodule update --init && \
 	make -C /swish RJS="nodejs /usr/share/nodejs/requirejs/r.js" min
 
-HEALTHCHECK --interval=30s --timeout=2m --start-period=1m \
-	CMD curl --fail -s --retry 3 --max-time 20 \
-	-d ask="statistics(threads,V)" \
-	-d template="csv(V)" \
-	-d format=csv \
-	-d solutions=all \
-	http://localhost:3050/pengine/create || \
-	bash -c 'kill -s 15 -1 && (sleep 10; kill -s 9 -1)'
+copy health.sh health.sh
+HEALTHCHECK --interval=30s --timeout=2m --start-period=1m CMD /health.sh
 
 COPY start-swish.sh start-swish.sh
 
