@@ -55,6 +55,8 @@ RUN	cd / && \
 		yarn-zip packs min
 RUN	make -C /swish -j PACKS=hdt packs
 
+RUN	apt install -y uglifyjs
+
 # Update.  Run `make update-swish` or `make update-swipl` to update the `ENV` command
 # below and redo the relevant part of the build
 
