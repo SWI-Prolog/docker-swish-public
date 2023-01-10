@@ -10,7 +10,7 @@ check()
   return $?
 }
 
-kill()
+stop()
 { pid=$(pgrep swipl)
   echo "Health check failed.  Killing swipl at pid=$pid"
   kill -TERM $pid
@@ -22,5 +22,5 @@ kill()
   echo "Done"
 }
 
-check || kill
+check || stop
 
