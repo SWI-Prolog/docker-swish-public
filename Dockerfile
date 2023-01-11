@@ -5,7 +5,8 @@ FROM debian:bullseye-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git curl unzip build-essential cmake autoconf ninja-build pkg-config \
-	cleancss node-requirejs \
+	gdb \
+	cleancss node-requirejs uglifyjs \
         ncurses-dev libreadline-dev libedit-dev \
         libgoogle-perftools-dev \
         libgmp-dev \
@@ -18,7 +19,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libdb-dev \
         libpcre2-dev \
         libyaml-dev \
-        default-jdk junit4 \
 	graphviz imagemagick \
 	wamerican \
 	libssh-dev openssh-client \
@@ -54,8 +54,6 @@ RUN	cd / && \
 	make -C /swish RJS="nodejs /usr/share/nodejs/requirejs/r.js" \
 		yarn-zip packs min
 RUN	make -C /swish -j PACKS=hdt packs
-
-RUN	apt install -y uglifyjs
 
 # Update.  Run `make update-swish` or `make update-swipl` to update the `ENV` command
 # below and redo the relevant part of the build
