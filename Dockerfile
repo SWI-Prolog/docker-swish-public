@@ -4,7 +4,8 @@ FROM debian:bullseye-slim
 # for a quick update by changing ENV VERSION
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        git curl unzip build-essential cmake autoconf ninja-build pkg-config \
+        git curl ca-certificates unzip \
+	build-essential cmake autoconf ninja-build pkg-config \
 	gdb \
 	cleancss node-requirejs uglifyjs \
         ncurses-dev libreadline-dev libedit-dev \
