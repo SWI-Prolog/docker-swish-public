@@ -1,7 +1,7 @@
 #!/bin/bash
 
 check()
-{ curl --fail -s --retry 3 --max-time 20 \
+{ curl --fail -s --retry 3 --max-time 5 \
        -d ask="statistics(threads,V)" \
        -d template="csv(V)" \
        -d format=csv \
@@ -22,5 +22,15 @@ stop()
   echo "Done"
 }
 
-check || stop
+starting()
+{ if [ -f /var/run/epoch ]; then
+      epoch=$(cat /var/run/epoch)
+      running=$(($(date "%+s") - $epoch))
+      [ $running -gt 60 ] || return 1
+  fi
+  echo "Starting, so not killing"
+  return 0
+}
+
+check || starting || stop
 

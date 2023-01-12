@@ -13,6 +13,8 @@ udaemon=daemon
 uconfig=root
 config_run=no
 
+date "+%s" > /var/run/epoch
+
 usage()
 { echo "Usage: docker run [docker options] swish [swish options]"
   echo "swish options:"
