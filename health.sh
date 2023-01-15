@@ -17,7 +17,11 @@ stop()
   timeout 10 tail --pid=$pid -f /dev/null
   if [ $? == 124 ]; then
       echo "Gracefull termination failed.  Forcing"
-      kill -9 $pid
+      if [ $pid == 1 ]; then
+	  kill -- $pid
+      else
+	  kill -9 $pid
+      fi
   fi
   echo "Done"
 }
