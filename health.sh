@@ -11,16 +11,17 @@ check()
 }
 
 stop()
-{ pid=$(pgrep swipl)
-  echo "Health check failed.  Killing swipl at pid=$pid"
-  kill -TERM $pid
+{ pid=1
+  echo "Health check failed.  Killing swish with SIGTERM"
+  kill -s TERM 1 $pid
   timeout 10 tail --pid=$pid -f /dev/null
   if [ $? == 124 ]; then
-      echo "Gracefull termination failed.  Forcing"
-      if [ $pid == 1 ]; then
-	  kill -- $pid
-      else
-	  kill -9 $pid
+      echo "Gracefull termination failed.  Trying QUIT"
+      kill -s QUIT $pid
+      timeout 10 tail --pid=$pid -f /dev/null
+      if [ $? == 124 ]; then
+	   echo "QUIT failed.  Trying KILL"
+	   kill -s KILL $pid
       fi
   fi
   echo "Done"
