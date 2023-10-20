@@ -1,12 +1,25 @@
 #!/bin/bash
+exec &> health.log
+
+root=/
+
+if [ -r config-enabled/network.pl ]; then
+  root=$(swipl -g 'config_swish_network:http_absolute_location(root(.),Root,[]),writeln(Root)' \
+	 -t halt config-enabled/network.pl)
+  echo "SWISH root at $root"
+fi
 
 check()
-{ curl --fail -s --retry 3 --max-time 5 \
+{ auth=
+  if [ -r health.auth ]; then
+     auth="$(cat health.auth)"
+  fi
+  curl $auth --fail -s --retry 3 --max-time 5 \
        -d ask="statistics(threads,V)" \
        -d template="csv(V)" \
        -d format=csv \
        -d solutions=all \
-       http://localhost:3050/pengine/create
+       http://localhost:3050${root}pengine/create
   return $?
 }
 
@@ -30,7 +43,7 @@ stop()
 starting()
 { if [ -f /var/run/epoch ]; then
       epoch=$(cat /var/run/epoch)
-      running=$(($(date "%+s") - $epoch))
+      running=$(($(date "+%s") - $epoch))
       [ $running -gt 60 ] || return 1
   fi
   echo "Starting, so not killing"
