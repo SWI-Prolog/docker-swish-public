@@ -141,6 +141,11 @@ else
   chown $udaemon.$udaemon data
 fi
 
+# Allow the daemon to get the git version
+mkdir -p /home/$udaemon
+chown $udaemon /home/$udaemon
+su -c "git config --global --add safe.directory /swish" $udaemon
+
 if [ -d $configdir ]; then
   mkuser $configdir config
   uconfig=config
@@ -251,7 +256,7 @@ trap "stop TERM" SIGTERM
 trap "stop QUIT" SIGQUIT
 trap "hangup" SIGHUP
 
-swipl ${SWISH_HOME}/daemon.pl --${scheme}=3050 ${ssl} --user=$udaemon $start &
+HOME=/home/$udaemon swipl ${SWISH_HOME}/daemon.pl --${scheme}=3050 ${ssl} --user=$udaemon $start &
 child_pid=$!
 
 stat=129
