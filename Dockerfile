@@ -37,7 +37,7 @@ RUN	mkdir /wordnet && cd /wordnet && \
 	tar zxf WNprolog-3.0.tar.gz
 ENV	WNDB /wordnet/prolog
 
-ENV	REBUILD_MOST 2
+ENV	REBUILD_MOST 4
 RUN	mkdir -p /usr/local/src && cd /usr/local/src && \
 	git clone --recursive https://github.com/SWI-Prolog/swipl-devel.git && \
 	cd swipl-devel && mkdir build && cd build && \
@@ -51,7 +51,7 @@ RUN	swipl -g "pack_install(wordnet,[interactive(false),package_directory('/usr/s
 RUN	swipl -g "pack_install(libssh,[interactive(false),package_directory('/usr/share/swi-prolog/pack')])" -t halt
 
 RUN	cd / && \
-	git clone -b redis https://github.com/SWI-Prolog/swish.git && \
+	git clone https://github.com/SWI-Prolog/swish.git && \
 	make -C /swish RJS="nodejs /usr/share/nodejs/requirejs/r.js" \
 		yarn-zip packs min
 RUN	make -C /swish -j PACKS=hdt packs
@@ -59,15 +59,16 @@ RUN	make -C /swish -j PACKS=hdt packs
 # Update.  Run `make update-swish` or `make update-swipl` to update the `ENV` command
 # below and redo the relevant part of the build
 
-ENV	SWIPL_VERSION Fri Sep 29 09:42:44 CEST 2023
+ENV	SWIPL_VERSION Mon Dec  4 13:51:01 CET 2023
 RUN	git config --global pull.ff only
 RUN	cd /usr/local/src/swipl-devel && git pull && \
 	git submodule update --init && \
+	find . -name '*.qlf' | xargs rm && \
 	cd build && cmake . && ninja && \
 	ninja install
 RUN	swipl -g "[library(wn)],load_wordnet" -t halt	
 ENV	SWISH_VERSION Wed Jan 11 23:52:48 CET 2023
-RUN	cd /swish && git fetch && git checkout backend && git pull && \
+RUN	cd /swish && git pull && \
 	git submodule update --init && \
 	make -C /swish RJS="nodejs /usr/share/nodejs/requirejs/r.js" min
 
