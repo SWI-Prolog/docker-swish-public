@@ -47,7 +47,7 @@ RUN	mkdir -p /usr/local/src && cd /usr/local/src && \
 RUN	mkdir -p /usr/share/swi-prolog/pack
 RUN	swipl -g "pack_install(chat80,[interactive(false),package_directory('/usr/share/swi-prolog/pack')])" -t halt
 RUN	swipl -g "pack_install(wordnet,[interactive(false),package_directory('/usr/share/swi-prolog/pack')])" -t halt && \
-	swipl -g "[library(wn)],load_wordnet" -t halt	
+	swipl -g "[library(wn)],load_wordnet" -t halt
 RUN	swipl -g "pack_install(libssh,[interactive(false),package_directory('/usr/share/swi-prolog/pack')])" -t halt
 
 RUN	cd / && \
@@ -61,12 +61,13 @@ RUN	make -C /swish -j PACKS=hdt packs
 
 ENV	SWIPL_VERSION Mon Dec  4 13:51:01 CET 2023
 RUN	git config --global pull.ff only
-RUN	cd /usr/local/src/swipl-devel && git pull && \
+RUN	cd /usr/local/src/swipl-devel && (git pull || git pull) && \
 	git submodule update --init && \
 	find . -name '*.qlf' | xargs rm && \
-	cd build && cmake . && ninja && \
+	cd build && rm -rf home && cmake . && ninja && \
+	rm -rf /usr/lib/swipl && \
 	ninja install
-RUN	swipl -g "[library(wn)],load_wordnet" -t halt	
+RUN	swipl -g "[library(wn)],load_wordnet" -t halt
 ENV	SWISH_VERSION Wed Jan 11 23:52:48 CET 2023
 RUN	cd /swish && git pull && \
 	git submodule update --init && \
