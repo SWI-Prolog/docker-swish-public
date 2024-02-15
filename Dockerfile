@@ -45,10 +45,8 @@ RUN	mkdir -p /usr/local/src && cd /usr/local/src && \
 	ninja && ninja install
 
 RUN	mkdir -p /usr/share/swi-prolog/pack
-RUN	swipl -g "pack_install(chat80,[interactive(false),package_directory('/usr/share/swi-prolog/pack')])" -t halt
-RUN	swipl -g "pack_install(wordnet,[interactive(false),package_directory('/usr/share/swi-prolog/pack')])" -t halt && \
-	swipl -g "[library(wn)],load_wordnet" -t halt
-RUN	swipl -g "pack_install(libssh,[interactive(false),package_directory('/usr/share/swi-prolog/pack')])" -t halt
+RUN	swipl pack install -y --dir=/usr/share/swi-prolog/pack chat80 wordnet libssh
+RUN	swipl -g "[library(wn)],load_wordnet" -t halt
 
 RUN	cd / && \
 	git clone https://github.com/SWI-Prolog/swish.git && \
