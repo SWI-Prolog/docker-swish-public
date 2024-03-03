@@ -46,6 +46,7 @@ RUN	mkdir -p /usr/local/src && cd /usr/local/src && \
 
 RUN	mkdir -p /usr/share/swi-prolog/pack
 RUN	swipl pack install -y --dir=/usr/share/swi-prolog/pack chat80 wordnet libssh
+RUN	git -C /usr/share/swi-prolog/pack clone -b swish https://github.com/JanWielemaker/clpBNR_pl clpBNR
 RUN	swipl -g "[library(wn)],load_wordnet" -t halt
 
 RUN	cd / && \
@@ -67,6 +68,7 @@ RUN	cd /usr/local/src/swipl-devel && (git pull || git pull) && \
 	ninja install
 RUN	swipl -g "[library(wn)],load_wordnet" -t halt
 ENV	SWISH_VERSION Wed Jan 11 23:52:48 CET 2023
+RUN	git -C /usr/share/swi-prolog/pack/clpBNR pull
 RUN	cd /swish && git pull && \
 	git submodule update --init && \
 	make -C /swish RJS="nodejs /usr/share/nodejs/requirejs/r.js" min
