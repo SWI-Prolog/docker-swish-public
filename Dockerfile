@@ -68,7 +68,8 @@ RUN	cd /usr/local/src/swipl-devel && (git pull || git pull) && \
 	ninja install
 RUN	swipl -g "[library(wn)],load_wordnet" -t halt
 ENV	SWISH_VERSION Wed Jan 11 23:52:48 CET 2023
-RUN	git -C /usr/share/swi-prolog/pack/clpBNR pull
+RUN	git -C /usr/share/swi-prolog/pack/clpBNR fetch && \
+	git -C /usr/share/swi-prolog/pack/clpBNR reset --hard origin/swish
 RUN	cd /swish && git pull && \
 	git submodule update --init && \
 	make -C /swish RJS="nodejs /usr/share/nodejs/requirejs/r.js" min
