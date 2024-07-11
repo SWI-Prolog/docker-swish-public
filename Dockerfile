@@ -58,7 +58,7 @@ RUN	make -C /swish -j PACKS=hdt packs
 # Update.  Run `make update-swish` or `make update-swipl` to update the `ENV` command
 # below and redo the relevant part of the build
 
-ENV	SWIPL_VERSION=Mon Dec  4 13:51:01 CET 2023
+ENV	SWIPL_VERSION="Mon Dec  4 13:51:01 CET 2023"
 RUN	git config --global pull.ff only
 RUN	cd /usr/local/src/swipl-devel && (git pull || git pull) && \
 	git submodule update --init && \
@@ -67,7 +67,7 @@ RUN	cd /usr/local/src/swipl-devel && (git pull || git pull) && \
 	rm -rf /usr/lib/swipl && \
 	ninja install
 RUN	swipl -g "[library(wn)],load_wordnet" -t halt
-ENV	SWISH_VERSION=Wed Jan 11 23:52:48 CET 2023
+ENV	SWISH_VERSION="Wed Jan 11 23:52:48 CET 2023"
 RUN	git -C /usr/share/swi-prolog/pack/clpBNR fetch && \
 	git -C /usr/share/swi-prolog/pack/clpBNR reset --hard origin/swish
 RUN	cd /swish && git pull && \

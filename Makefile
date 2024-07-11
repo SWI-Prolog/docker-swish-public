@@ -41,14 +41,14 @@ push:
 	docker push $(IMG):latest
 
 update-swish:
-	sed -i "s/SWISH_VERSION.*/SWISH_VERSION=$$(date)/" Dockerfile
+	sed -i "s/SWISH_VERSION.*/SWISH_VERSION="'"'"$$(date)"'"'"/" Dockerfile
 	make image
 
 update-swipl:
-	sed -i "s/SWIPL_VERSION.*/SWIPL_VERSION=$$(date)/" Dockerfile
+	sed -i "s/SWIPL_VERSION.*/SWIPL_VERSION="'"'"$$(date)"'"'"/" Dockerfile
 	make image
 
 update-mostly:
-	sed -i "s/REBUILD_MOST.*/REBUILD_MOST=$$(date)/" Dockerfile
+	sed -i "s/REBUILD_MOST.*/REBUILD_MOST="'"'"$$(date)"'"'"/" Dockerfile
 	make image
 
