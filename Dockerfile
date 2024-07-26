@@ -5,7 +5,8 @@ FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git curl ca-certificates unzip \
-	build-essential cmake autoconf ninja-build pkg-config \
+	build-essential cmake ninja-build pkg-config \
+	autoconf autotools-dev automake libtool \
 	gdb \
 	cleancss node-requirejs uglifyjs \
         ncurses-dev libreadline-dev libedit-dev \
