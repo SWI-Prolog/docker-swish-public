@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 # Dockerfile for the public swish image.   This docker image is designed to allow
 # for a quick update by changing ENV VERSION
