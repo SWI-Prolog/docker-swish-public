@@ -38,7 +38,7 @@ RUN	mkdir /wordnet && cd /wordnet && \
 	tar zxf WNprolog-3.0.tar.gz
 ENV	WNDB=/wordnet/prolog
 
-ENV	REBUILD_MOST=4
+ENV	REBUILD_MOST=5
 RUN	mkdir -p /usr/local/src && cd /usr/local/src && \
 	git clone --recursive https://github.com/SWI-Prolog/swipl-devel.git && \
 	cd swipl-devel && mkdir build && cd build && \
