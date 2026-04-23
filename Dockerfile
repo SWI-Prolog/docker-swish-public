@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 # Dockerfile for the public swish image.   This docker image is designed to allow
 # for a quick update by changing ENV VERSION
@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libgmp-dev \
         libssl-dev \
         unixodbc-dev \
+	libutf8proc-dev \
         zlib1g-dev libarchive-dev \
         libossp-uuid-dev \
         libxext-dev libice-dev libjpeg-dev libxinerama-dev libxft-dev \
